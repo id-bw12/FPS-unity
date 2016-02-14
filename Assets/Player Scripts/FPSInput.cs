@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+[RequireComponent(typeof(CharacterController))]
+[AddComponentMenu("Control Script/FPS Input")]
+
 public class FPSInput : MonoBehaviour {
 
 	public float speed = 3.0f, gravity  = -9.8f ;

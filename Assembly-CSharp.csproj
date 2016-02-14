@@ -45,6 +45,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Control.cs" />
+     <Compile Include="Assets\GunMechanic.cs" />
      <Compile Include="Assets\Player Scripts\FPSInput.cs" />
      <Compile Include="Assets\Player Scripts\playerSight.cs" />
      <Compile Include="Assets\PlayerScript.cs" />
