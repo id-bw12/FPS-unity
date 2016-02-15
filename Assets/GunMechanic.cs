@@ -28,8 +28,17 @@ public class GunMechanic : MonoBehaviour {
 			var ray = _camera.ScreenPointToRay (point);
 			RaycastHit hit;
 
-			if (Physics.Raycast (ray, out hit))
-				StartCoroutine (SphereIndictor (hit.point));
+			if (Physics.Raycast (ray, out hit)) {
+				var hitObject = hit.transform.gameObject;
+				var target = hitObject.GetComponent<ReactiveTarget> ();
+
+				if (target != null)
+					target.ReactToHit ();
+				else 
+					StartCoroutine (SphereIndictor (hit.point));
+					
+			}
+				
 		}
 	}
 
@@ -38,7 +47,7 @@ public class GunMechanic : MonoBehaviour {
 
 		sphere.transform.position = pos;
 
-		yield return new WaitForSeconds (1);
+		yield return new WaitForSeconds (0.5f);
 
 		Destroy (sphere);
 	}
