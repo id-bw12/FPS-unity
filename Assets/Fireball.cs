@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Fireball : MonoBehaviour {
@@ -16,11 +16,11 @@ public class Fireball : MonoBehaviour {
 		transform.Translate (0,0, speed*Time.deltaTime);
 	}
 
-	void onTriggerEnter(Collider other){
+	void OnTriggerEnter(Collider other){
 		PlayerCharacter player = other.GetComponent<PlayerCharacter> ();
 		print ("hit");
 		if (player != null){
-			Debug.Log ("player hit");
+			player.Hurt (damage);
 		}
 		Destroy (this.gameObject);
 	} 

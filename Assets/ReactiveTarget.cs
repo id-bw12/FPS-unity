@@ -13,6 +13,7 @@ public class ReactiveTarget : MonoBehaviour {
 
 		if (behavior != null)
 			behavior.isAlive (false);
+		
 		StartCoroutine (Die());
 	}
 	

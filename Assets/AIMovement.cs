@@ -34,6 +34,7 @@ public class AIMovement : MonoBehaviour {
 				}
 			}
 			else if (hit.distance < obstacleRange) {
+
 				float angle = Random.Range (-110, 110);
 				transform.Rotate (0, angle, 0);
 			}
@@ -50,11 +51,14 @@ public class AIMovement : MonoBehaviour {
 		var rander = sphere.GetComponent<Renderer>();
 
 		sphere.AddComponent<Rigidbody> ();
+		sphere.AddComponent<SphereCollider> ();
 
 		var rigidBody = sphere.GetComponent<Rigidbody> ();
-		sphere.GetComponent<SphereCollider> ().isTrigger = true;
+		var sphereCollider = sphere.GetComponent<SphereCollider> ();
 
 		rander.material.color = Color.magenta;
+
+		sphereCollider.isTrigger = true;
 
 		rigidBody.useGravity = false;
 
