@@ -23,7 +23,7 @@ public class GunMechanic : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButtonDown (0) && Time.timeScale != 0){
 			var point = new Vector3 (_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
 			var ray = _camera.ScreenPointToRay (point);
 			RaycastHit hit;

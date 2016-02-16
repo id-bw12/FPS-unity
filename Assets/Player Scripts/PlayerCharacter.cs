@@ -11,6 +11,14 @@ public class PlayerCharacter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (this.health == 0) {
+            print("Game over.");
+            Time.timeScale = 0;
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
 	
 	}
 

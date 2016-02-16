@@ -10,7 +10,7 @@ public class Control : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        
 		makeEnemy ();
 
 		GameObject floor = GameObject.Find ("Floor");

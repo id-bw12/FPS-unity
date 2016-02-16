@@ -23,16 +23,17 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	private void isPaused(){
-		if (!pause) {
+        if (!pause)
+        {
+            Time.timeScale = 0;
+            pause = true;
+        }
+        else
+        if (pause){
+            Time.timeScale = 1;
+            pause = false;
+        }
 
-			Time.timeScale = 1;
-			pause = true;
-
-		} else {
-
-			Time.timeScale = 0;
-			pause = false;
-		}
 	}
 
 	private void OnGUI(){
@@ -47,7 +48,11 @@ public class PauseMenu : MonoBehaviour {
 
 			if (GUILayout.Button ("Click me to unpause")) {
 				isPaused ();
+
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
 			}
+
 		}
 	}
 
