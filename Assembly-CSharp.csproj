@@ -45,15 +45,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AIMovement.cs" />
-     <Compile Include="Assets\Control.cs" />
-     <Compile Include="Assets\Fireball.cs" />
-     <Compile Include="Assets\PauseMenu.cs" />
+     <Compile Include="Assets\AI Script\AIMovement.cs" />
+     <Compile Include="Assets\AI Script\ReactiveTarget.cs" />
+     <Compile Include="Assets\Control\Control.cs" />
+     <Compile Include="Assets\Control\PauseMenu.cs" />
      <Compile Include="Assets\Player Scripts\FPSInput.cs" />
      <Compile Include="Assets\Player Scripts\GunMechanic.cs" />
      <Compile Include="Assets\Player Scripts\PlayerCharacter.cs" />
      <Compile Include="Assets\Player Scripts\playerSight.cs" />
-     <Compile Include="Assets\ReactiveTarget.cs" />
+     <Compile Include="Assets\Projectiles Script\Fireball.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

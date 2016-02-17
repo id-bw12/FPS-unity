@@ -4,6 +4,7 @@ using System.Collections;
 public class PauseMenu : MonoBehaviour {
 
 	private bool pause = false;
+	private GUI pausedMenu;
 
 	// Use this for initialization
 	void Start () {
@@ -27,11 +28,17 @@ public class PauseMenu : MonoBehaviour {
         {
             Time.timeScale = 0;
             pause = true;
+
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
         }
         else
         if (pause){
             Time.timeScale = 1;
             pause = false;
+			
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
         }
 
 	}
@@ -39,21 +46,15 @@ public class PauseMenu : MonoBehaviour {
 	private void OnGUI(){
 	
 		if (pause) {
-			GUILayout.BeginArea(new Rect(100,120,200,200));
-			GUILayout.Label("Game is paused!");
+			
+			GUI.Box (new Rect (10,20,1000,1000), "Pause Menu");
 
-
-			Cursor.visible = true;
-			Cursor.lockState = CursorLockMode.None;
-
-			if (GUILayout.Button ("Click me to unpause")) {
+			if (GUI.Button (new Rect (100, 200, 100, 20), "Paused"))
 				isPaused ();
-
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+			
+			if (GUI.Button (new Rect (100, 230, 100, 20), "Exit"))
+				Application.Quit ();
 			}
-
-		}
 	}
 
 }
