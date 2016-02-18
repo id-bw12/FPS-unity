@@ -4,15 +4,29 @@ using System.Collections;
 public class PauseMenu : MonoBehaviour {
 
 	private bool pause = false;
-	//private GUI pausedMenu;
+    private float x , y;
 
-	// Use this for initialization
-	void Start () {
+    //http://answers.unity3d.com/questions/139525/gui-in-the-middle-of-the-screen.html
+
+    //private GUI pausedMenu;
+
+    // Use this for initialization
+    void Start () {
 
         //GameObject canvas  = new GameObject("canvas", typeof(RectTransform));
         //canvas.AddComponent<Canvas>();
 
         print(Screen.width);
+
+        if (Screen.width > 1004){
+            x = Screen.width / 1.5f;
+            y = Screen.height / 1.25f;
+        }
+        else if(Screen.width <= 1004){
+           
+            x = Screen.width / 1.25f;
+            y = Screen.height / 1.25f;
+        }
 
     }
 
@@ -23,8 +37,7 @@ public class PauseMenu : MonoBehaviour {
 			isPaused ();
 		}
 
-
-	}
+    }
 
 	private void isPaused(){
         if (!pause)
@@ -48,15 +61,15 @@ public class PauseMenu : MonoBehaviour {
 
 	private void OnGUI(){
 
-        float x = 150, y = 60, width = 500, height = 250;
+        float width = 500, height = 250;
 
         if (pause)
         {
 
-            GUI.Box(new Rect(x, y, width, height), "Pause Menu");
+            GUI.Box(new Rect(Screen.width - x, Screen.height - y, width, height), "Pause Menu");
 
 
-            if (GUI.Button(new Rect(200, 200, 100, 20), "Paused"))
+            if (GUI.Button(new Rect(x+50, y+50, 100, 20), "Paused"))
                 isPaused();
 
             if (GUI.Button (new Rect (200, 230, 100, 20), "Exit"))
