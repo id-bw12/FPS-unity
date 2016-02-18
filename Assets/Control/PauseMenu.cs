@@ -44,17 +44,26 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	private void OnGUI(){
-	
-		if (pause) {
-			
-			GUI.Box (new Rect (10,20,1000,1000), "Pause Menu");
+		
+		//float x = 150, y = 60, width = 500, height = 250;
 
-			if (GUI.Button (new Rect (100, 200, 100, 20), "Paused"))
-				isPaused ();
+		//GameObject canvas  = new GameObject("canvas", typeof(RectTransform));
+		//canvas.AddComponent<Canvas>();
+		//if (pause) {
 			
-			if (GUI.Button (new Rect (100, 230, 100, 20), "Exit"))
-				Application.Quit ();
-			}
+			//GUI.Box (new Rect (x,y,width,height), "Pause Menu");
+
+			
+			//if (GUI.Button (new Rect (200, 200, 100, 20), "Paused"))
+			//	isPaused ();
+			
+			//if (GUI.Button (new Rect (200, 230, 100, 20), "Exit"))
+			//	Application.Quit ();
+			//}
+
+
 	}
+
+
 
 }

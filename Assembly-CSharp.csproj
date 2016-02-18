@@ -48,6 +48,7 @@
      <Compile Include="Assets\AI Script\AIMovement.cs" />
      <Compile Include="Assets\AI Script\ReactiveTarget.cs" />
      <Compile Include="Assets\Control\Control.cs" />
+     <Compile Include="Assets\Control\FullScreen.cs" />
      <Compile Include="Assets\Control\PauseMenu.cs" />
      <Compile Include="Assets\Player Scripts\FPSInput.cs" />
      <Compile Include="Assets\Player Scripts\GunMechanic.cs" />
