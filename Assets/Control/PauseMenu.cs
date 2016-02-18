@@ -4,17 +4,20 @@ using System.Collections;
 public class PauseMenu : MonoBehaviour {
 
 	private bool pause = false;
-	private GUI pausedMenu;
+	//private GUI pausedMenu;
 
 	// Use this for initialization
 	void Start () {
 
+        //GameObject canvas  = new GameObject("canvas", typeof(RectTransform));
+        //canvas.AddComponent<Canvas>();
 
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        print(Screen.width);
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 
 		if (Input.GetKeyDown (KeyCode.P) && !pause) {
 			isPaused ();
@@ -44,22 +47,21 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	private void OnGUI(){
-		
-		//float x = 150, y = 60, width = 500, height = 250;
 
-		//GameObject canvas  = new GameObject("canvas", typeof(RectTransform));
-		//canvas.AddComponent<Canvas>();
-		//if (pause) {
-			
-			//GUI.Box (new Rect (x,y,width,height), "Pause Menu");
+        float x = 150, y = 60, width = 500, height = 250;
 
-			
-			//if (GUI.Button (new Rect (200, 200, 100, 20), "Paused"))
-			//	isPaused ();
-			
-			//if (GUI.Button (new Rect (200, 230, 100, 20), "Exit"))
-			//	Application.Quit ();
-			//}
+        if (pause)
+        {
+
+            GUI.Box(new Rect(x, y, width, height), "Pause Menu");
+
+
+            if (GUI.Button(new Rect(200, 200, 100, 20), "Paused"))
+                isPaused();
+
+            if (GUI.Button (new Rect (200, 230, 100, 20), "Exit"))
+				Application.Quit ();
+			}
 
 
 	}
