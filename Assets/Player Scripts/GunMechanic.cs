@@ -4,6 +4,7 @@ using System.Collections;
 public class GunMechanic : MonoBehaviour {
 	
 	private Camera _camera;
+    
 
 	// Use this for initialization
 	void Start () {
