@@ -11,7 +11,9 @@ public class Control : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         
-		makeEnemy ();
+		GameObject endingCube = GoalObject ();
+
+		//makeEnemy ();
 
 		GameObject floor = GameObject.Find ("Floor");
 
@@ -25,8 +27,31 @@ public class Control : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (enemy == null)
-			makeEnemy ();
+		//if (enemy == null)
+			//makeEnemy ();
+	}
+
+	private GameObject GoalObject(){
+	
+		GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
+
+		Rigidbody cubeBody = cube.GetComponent<Rigidbody> ();
+
+		BoxCollider cubeCollider = cube.GetComponent<BoxCollider> ();
+
+		Renderer cubeRender = cube.GetComponent<Renderer> ();
+
+		cube.transform.Rotate(50,0,0);
+
+		cube.transform.localPosition = new Vector3 (0, 1, 0);
+
+		cubeCollider.isTrigger = true;
+
+		cube.AddComponent<GoalCube> ();
+
+		cubeRender.material.color = Color.green;
+
+		return cube;
 	}
 
 	private void makeEnemy(){
