@@ -6,20 +6,18 @@ public class PlayerCharacter : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (this.health == 0) {
-            print("Game over.");
-            Time.timeScale = 0;
-
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+        
 	
+	}
+
+	public int GetPlayerHealth(){
+		return health;
 	}
 
 	public void Hurt(int damage){

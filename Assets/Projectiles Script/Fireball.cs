@@ -8,6 +8,8 @@ public class Fireball : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		this.gameObject.transform.localScale = new Vector3 (0.25f, 0.25f, 0.25f);
 	
 	}
 	

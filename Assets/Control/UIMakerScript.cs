@@ -9,11 +9,12 @@ using System.Collections;
 
 public class UIMakerScript : MonoBehaviour {
 
+	//http://chikkooos.blogspot.com/2015/03/new-ui-implementation-using-c-scripts.html
+
 	private const int LayerUI = 5;
 
 	// Use this for initialization
 	void Start () {
-		CreateUI ();
 	}
 	
 	// Update is called once per frame
@@ -21,29 +22,7 @@ public class UIMakerScript : MonoBehaviour {
 	
 	}
 
-	public void BringUpUI(){
-
-
-
-	}
-
-	private void CreateUI() {
-        
-        GameObject canvas = CreateCanvas(this.transform);
-
-        CreateEventSystem(canvas.transform);
-
-        GameObject panel = CreatePanel(canvas.transform);
-
-        CreateText(panel.transform, 0, 50, 160, 50, "Message", 14);
-        CreateText(panel.transform, 0, 25, 160, 50, "Are you sure, you want to exit?", 12);
-
-        GameObject button1 = CreateButton(panel.transform, 0, -10, 160, 50, "Yes", delegate {OnExit();});
-		GameObject button2 = CreateButton(panel.transform, 0, 30, 160, 50, "No", delegate {OnCancel();});
-
-    }
-
-    private GameObject CreateCanvas(Transform parent) {
+    public GameObject CreateCanvas(Transform parent) {
         // create the canvas
         GameObject canvasObject = new GameObject("Canvas");
         canvasObject.layer = LayerUI;
@@ -60,14 +39,14 @@ public class UIMakerScript : MonoBehaviour {
         
         GraphicRaycaster canvasRayc = canvasObject.AddComponent<GraphicRaycaster>();
 
-		canvasObject.AddComponent<Image> ();
+		//canvasObject.AddComponent<Image> ();
 
         canvasObject.transform.SetParent(parent);
         
         return canvasObject;
     }
 
-    private GameObject CreateEventSystem(Transform parent) {
+    public GameObject CreateEventSystem(Transform parent) {
         GameObject esObject = new GameObject("EventSystem");
 
         EventSystem esClass = esObject.AddComponent<EventSystem>();
@@ -85,7 +64,7 @@ public class UIMakerScript : MonoBehaviour {
         return esObject;
     }
 
-    private GameObject CreatePanel(Transform parent) {
+    public GameObject CreatePanel(Transform parent) {
         GameObject panelObject = new GameObject("Panel");
         panelObject.transform.SetParent(parent);
 
@@ -118,7 +97,7 @@ public class UIMakerScript : MonoBehaviour {
         return panelObject;
     }
     
-    private GameObject CreateText(Transform parent, float x, float y,
+    public GameObject CreateText(Transform parent, float x, float y,
                                       float w, float h, string message, int fontSize) {
         GameObject textObject = new GameObject("Text");
         textObject.transform.SetParent(parent);
@@ -139,14 +118,14 @@ public class UIMakerScript : MonoBehaviour {
         text.text = message;
         text.fontSize = fontSize;
         text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-        text.alignment = TextAnchor.MiddleCenter;
+		text.alignment = TextAnchor.MiddleCenter;
         text.horizontalOverflow = HorizontalWrapMode.Overflow;
         text.color = new Color(0, 0, 1);
 
         return textObject;
     }
     
-    private GameObject CreateButton(Transform parent, float x, float y, float w, float h, string message,
+    public GameObject CreateButton(Transform parent, float x, float y, float w, float h, string message,
                                         UnityAction eventListner) {
 
         GameObject buttonObject = new GameObject("Button");
@@ -166,9 +145,12 @@ public class UIMakerScript : MonoBehaviour {
 
         Image image = buttonObject.AddComponent<Image>();
 
-        Texture2D tex = Resources.Load<Texture2D>("UISprite");
-        image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
-                                                  new Vector2(0.5f, 0.5f));
+		//Texture2D tex = Resources.Load<Texture2D> ("btn_tiled.png");
+
+		image.color = Color.cyan;
+
+		//image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
+			//new Vector2(0.5f, 0.5f);
 
         Button button = buttonObject.AddComponent<Button>();
         button.interactable = true;
@@ -189,15 +171,5 @@ public class UIMakerScript : MonoBehaviour {
         trans.offsetMax = trans.offsetMax + 
                                   new Vector2(sizeDiff.x * (1.0f - trans.pivot.x),
                                       sizeDiff.y * (1.0f - trans.pivot.y));
-    }
-
-    private void OnExit()
-    {
-        Application.Quit();
-    }
-
-    private void OnCancel()
-    {
-        GameObject.Destroy(this);
     }
 }

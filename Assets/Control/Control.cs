@@ -5,13 +5,17 @@ public class Control : MonoBehaviour {
 
 	private Renderer[] render;
 
-	private GameObject enemy;
+	private GameObject enemy, endingCube;
+
+	private int enemyKilled = 5;
+
+	private bool playerWins = false;
 
 
 	// Use this for initialization
 	void Start () {
         
-		GameObject endingCube = GoalObject ();
+		endingCube = GoalObject ();
 
 		//makeEnemy ();
 
@@ -29,6 +33,11 @@ public class Control : MonoBehaviour {
 
 		//if (enemy == null)
 			//makeEnemy ();
+
+		if (endingCube == null && enemyKilled == 5)
+			playerWins = true;
+			
+			
 	}
 
 	private GameObject GoalObject(){
@@ -69,5 +78,10 @@ public class Control : MonoBehaviour {
 		enemy.AddComponent<ReactiveTarget>();
 
 		enemy.AddComponent<AIMovement> ();
+	}
+
+	public bool getWinCondition(){
+
+		return playerWins;
 	}
 }

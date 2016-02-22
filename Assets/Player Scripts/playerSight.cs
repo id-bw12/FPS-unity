@@ -6,7 +6,8 @@ public class playerSight : MonoBehaviour {
 	public enum RotationAxes{
 		MouseXAndY = 0,
 		MouseX = 1,
-		MouseY = 2
+		MouseY = 2,
+		None = 3
 	}
 
 	public RotationAxes axes = RotationAxes.MouseXAndY;
@@ -32,28 +33,29 @@ public class playerSight : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (Time.timeScale == 1) {
+			if (axes == RotationAxes.MouseX) {
 
-		if (axes == RotationAxes.MouseX) {
-
-			transform.Rotate (0, Input.GetAxis("Mouse X")*sensitivityHor, 0);
-		} else if (axes == RotationAxes.MouseY) {
+				transform.Rotate (0, Input.GetAxis ("Mouse X") * sensitivityHor, 0);
+			} else if (axes == RotationAxes.MouseY) {
 			
-			rotationX -= Input.GetAxis ("Mouse Y") * sensitivityVert;
-			rotationX = Mathf.Clamp(rotationX, minimumVert, maximumVert);
+				rotationX -= Input.GetAxis ("Mouse Y") * sensitivityVert;
+				rotationX = Mathf.Clamp (rotationX, minimumVert, maximumVert);
 
-			float rotationY = transform.localEulerAngles.y;
+				float rotationY = transform.localEulerAngles.y;
 
-			transform.localEulerAngles = new Vector3 (rotationX, rotationY, 0);
-		} else {
+				transform.localEulerAngles = new Vector3 (rotationX, rotationY, 0);
+			} else if (axes != RotationAxes.None) {
 
-			rotationX -= Input.GetAxis ("Mouse Y") * sensitivityVert;
-			rotationX = Mathf.Clamp(rotationX, minimumVert, maximumVert);
+				rotationX -= Input.GetAxis ("Mouse Y") * sensitivityVert;
+				rotationX = Mathf.Clamp (rotationX, minimumVert, maximumVert);
 
-			float delta = Input.GetAxis ("Mouse X") * sensitivityHor;
-			float rotationY = transform.localEulerAngles.y + delta;
+				float delta = Input.GetAxis ("Mouse X") * sensitivityHor;
+				float rotationY = transform.localEulerAngles.y + delta;
 
-			transform.localEulerAngles = new Vector3 (rotationX, rotationY, 0);
+				transform.localEulerAngles = new Vector3 (rotationX, rotationY, 0);
+			}
+
 		}
-
 	}
 }

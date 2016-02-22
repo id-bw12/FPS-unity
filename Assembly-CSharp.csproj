@@ -47,9 +47,8 @@
   <ItemGroup>
      <Compile Include="Assets\AI Script\AIMovement.cs" />
      <Compile Include="Assets\AI Script\ReactiveTarget.cs" />
+     <Compile Include="Assets\Control\CheckWinLoss.cs" />
      <Compile Include="Assets\Control\Control.cs" />
-     <Compile Include="Assets\Control\FullScreen.cs" />
-     <Compile Include="Assets\Control\MenuScript.cs" />
      <Compile Include="Assets\Control\PauseMenu.cs" />
      <Compile Include="Assets\Control\UIMakerScript.cs" />
      <Compile Include="Assets\GoalCube.cs" />
