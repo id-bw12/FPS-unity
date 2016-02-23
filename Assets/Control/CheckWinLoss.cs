@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class CheckWinLoss : MonoBehaviour {
@@ -36,7 +37,7 @@ public class CheckWinLoss : MonoBehaviour {
 				Cursor.visible = true;
 				Cursor.lockState = CursorLockMode.None;
 
-				GameOverScreen ("You win");
+				GameOverScreen ("You win. Would you like to play again.");
 		}
 
 	
@@ -52,6 +53,14 @@ public class CheckWinLoss : MonoBehaviour {
 
 		GameObject panel = menuMaker.CreatePanel(canvas.transform);
 
-		menuMaker.CreateText(panel.transform, -80, 50, 160, 50, message, 14);
-	}
+		menuMaker.CreateText(panel.transform, -20, 50, 160, 50, message, 14);
+
+        GameObject button1 = menuMaker.CreateButton(panel.transform, 0, -10, 160, 25, "Yes", delegate { ResetScene(); });
+    }
+
+    private void ResetScene() {
+        
+        SceneManager.LoadScene("Maze");
+
+    }
 }

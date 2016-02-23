@@ -14,7 +14,8 @@ public class Control : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
+
+        Time.timeScale = 1;
 
 		makeEnemy ();
 
@@ -25,7 +26,9 @@ public class Control : MonoBehaviour {
 		for (int i = 0; i < render.Length; ++i) 
 			render [i].material.color = Color.blue;
 
-		print (enemyKilled);
+        GameObject gameLight = GameObject.Find("Directional Light");
+
+        gameLight.transform.Rotate(50, 330, 0);
 
 	}
 	
@@ -36,8 +39,9 @@ public class Control : MonoBehaviour {
 			makeEnemy ();
 			++enemyKilled;
 
-		} else if (enemyKilled == 5 && !goalObject) {
+		} else if (enemyKilled == 4 && !goalObject) {
 			endingCube = MakeGoalObject ();
+            print("hey");
 			goalObject = true;
 		}
 		else
