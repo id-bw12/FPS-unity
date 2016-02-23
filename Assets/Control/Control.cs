@@ -7,17 +7,16 @@ public class Control : MonoBehaviour {
 
 	private GameObject enemy, endingCube;
 
-	private int enemyKilled = 5;
+	private int enemyKilled = 0;
 
-	private bool playerWins = false;
+	private bool playerWins = false, goalObject = false;
 
 
 	// Use this for initialization
 	void Start () {
         
-		endingCube = GoalObject ();
 
-		//makeEnemy ();
+		makeEnemy ();
 
 		GameObject floor = GameObject.Find ("Floor");
 
@@ -26,21 +25,29 @@ public class Control : MonoBehaviour {
 		for (int i = 0; i < render.Length; ++i) 
 			render [i].material.color = Color.blue;
 
+		print (enemyKilled);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		//if (enemy == null)
-			//makeEnemy ();
+		if (enemy == null && enemyKilled < 4) {
+			makeEnemy ();
+			++enemyKilled;
 
-		if (endingCube == null && enemyKilled == 5)
-			playerWins = true;
+		} else if (enemyKilled == 5 && !goalObject) {
+			endingCube = MakeGoalObject ();
+			goalObject = true;
+		}
+		else
+			if (endingCube == null && goalObject)
+				playerWins = true;
 			
 			
 	}
 
-	private GameObject GoalObject(){
+	private GameObject MakeGoalObject(){
 	
 		GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
 
