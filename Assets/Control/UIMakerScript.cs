@@ -85,29 +85,27 @@ public class UIMakerScript : MonoBehaviour {
         
         Image image = panelObject.AddComponent<Image>();
 
+		image.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+
+		image.type = Image.Type.Sliced;
+
 		image.color = Color.yellow;
-        //Texture2D tex = Resources.Load<Texture2D>("Background");
-
-		//tex.width = 100;
-		//tex.height = 50;
-
-        //image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
-                                                //  new Vector2(0.5f, 0.5f));
 
         return panelObject;
     }
     
-    public GameObject CreateText(Transform parent, float x, float y,
-                                      float w, float h, string message, int fontSize) {
-        GameObject textObject = new GameObject("Text");
+	public GameObject CreateText(Transform parent,Vector2 position, Vector2 size, string objectName,
+		string message, int fontSize) {
+
+        GameObject textObject = new GameObject(objectName);
         textObject.transform.SetParent(parent);
 
         textObject.layer = LayerUI;
 
         RectTransform trans = textObject.AddComponent<RectTransform>();
-        trans.sizeDelta.Set(w, h);
+		trans.sizeDelta = size;
         trans.anchoredPosition3D = new Vector3(0, 0, 0);
-        trans.anchoredPosition = new Vector2(x, y);
+		trans.anchoredPosition = position;
         trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         trans.localPosition.Set(0, 0, 0);
 
@@ -125,19 +123,19 @@ public class UIMakerScript : MonoBehaviour {
         return textObject;
     }
     
-    public GameObject CreateButton(Transform parent, float x, float y, float w, float h, string message,
-                                        UnityAction eventListner) {
+	public GameObject CreateButton(Transform parent, Vector2 position, Vector2 size, string objectName, 
+		string message, UnityAction eventListner) {
 
-        GameObject buttonObject = new GameObject("Button");
+		GameObject buttonObject = new GameObject(objectName);
 
         buttonObject.transform.SetParent(parent);
 
         buttonObject.layer = LayerUI;
 
         RectTransform trans = buttonObject.AddComponent<RectTransform>();
-        SetSize(trans, new Vector2(w, h));
+        SetSize(trans, size);
         trans.anchoredPosition3D = new Vector3(0, 0, 0);
-        trans.anchoredPosition = new Vector2(x, y);
+		trans.anchoredPosition = position;
         trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         trans.localPosition.Set(0, 0, 0);
 
@@ -145,22 +143,59 @@ public class UIMakerScript : MonoBehaviour {
 
         Image image = buttonObject.AddComponent<Image>();
 
-		//Texture2D tex = Resources.Load<Texture2D> ("btn_tiled.png");
+		image.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite> ("UI/Skin/UISprite.psd");
 
-		image.color = Color.cyan;
-
-		//image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height),
-			//new Vector2(0.5f, 0.5f);
+		image.type = Image.Type.Sliced;
 
         Button button = buttonObject.AddComponent<Button>();
         button.interactable = true;
         button.onClick.AddListener(eventListner);
 
-        GameObject textObject = CreateText(buttonObject.transform, 0, 0, 0, 0,
+		CreateText(buttonObject.transform, new Vector2(0,0), new Vector2(0,34), "buttonText",
                                                    message, 24);
 
         return buttonObject;
     }
+
+	public GameObject MakeScaler(Transform parent){
+	
+		GameObject scalerObject = new GameObject ();
+
+		scalerObject.transform.SetParent (parent);
+
+		scalerObject.layer = LayerUI;
+
+		scalerObject.AddComponent<RectTransform> ();
+
+		scalerObject.AddComponent<Slider> ();
+
+		MakeScalerBackgorund (scalerObject.transform);
+
+
+
+		return scalerObject;
+	}
+
+	private void MakeScalerBackgorund(Transform parent){
+
+		GameObject scalerBackground = new GameObject ("Background");
+
+		scalerBackground.transform.SetParent (parent);
+
+		RectTransform trans = scalerBackground.AddComponent<RectTransform> ();
+
+		trans.anchorMin = new Vector2 (0.0f,0.25f);
+		trans.anchorMax = new Vector2 (0.0f,0.75f);
+		trans.pivot = new Vector2 (0.5f,0.5f);
+
+		scalerBackground.AddComponent<CanvasRenderer> ();
+
+		Image image = scalerBackground.AddComponent<Image> ();
+
+		image.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+	
+
+	}
 
     private static void SetSize(RectTransform trans, Vector2 size) {
         Vector2 currSize = trans.rect.size;

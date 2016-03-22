@@ -2,6 +2,7 @@
 using System.Collections;
 
 using UnityEngine.UI;
+using UnityEditor;
 
 
 public class PauseMenu : MonoBehaviour
@@ -65,26 +66,24 @@ public class PauseMenu : MonoBehaviour
 
 		GameObject panel = menuMaker.CreatePanel(canvas.transform);
 
-		menuMaker.CreateText(panel.transform, 0, 50, 160, 50, "Message", 14);
-		menuMaker.CreateText(panel.transform, 0, 25, 160, 50, "Are you sure, you want to exit?", 12);
+		menuMaker.CreateText(panel.transform, new Vector2(0, 50), new Vector2(160, 50), "textHeader","Pause Menu", 14);
+		menuMaker.CreateText(panel.transform, new Vector2(0, 25), new Vector2(160, 50), "subText","Are you sure, you want to exit?", 12);
 
-		GameObject button1 = menuMaker.CreateButton(panel.transform, 0, -40, 160, 25, "Yes", delegate {OnExit();});
-		GameObject button2 = menuMaker.CreateButton(panel.transform, 0, 10, 160, 25, "No", delegate {OnCancel();});
+		GameObject button1 = menuMaker.CreateButton(panel.transform, new Vector2(0,0), new Vector2(100,25), "Exitbttn","Yes", delegate {OnExit();});
+		GameObject button2 = menuMaker.CreateButton(panel.transform, new Vector2(0, -30), new Vector2(100,25), "UnpauseBttn","No", delegate {ExitPause();});
 
 
 	}
    
 	private void OnExit(){
-
+		
 		Debug.Log ("Exit");
-		Application.Quit();
+		UnityEditor.EditorApplication.isPlaying = false;
 	}
 
-	private void OnCancel(){
+	private void ExitPause(){
 		
-		Debug.Log ("Don't");
-
-		PauseMenu pause = gameObject.GetComponent <PauseMenu>();
+		Debug.Log ("Unpaused");
 
 		isPaused ();
 
