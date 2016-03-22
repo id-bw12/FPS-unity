@@ -13,15 +13,6 @@ public class UIMakerScript : MonoBehaviour {
 
 	private const int LayerUI = 5;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     public GameObject CreateCanvas(Transform parent) {
         // create the canvas
         GameObject canvasObject = new GameObject("Canvas");
@@ -37,7 +28,7 @@ public class UIMakerScript : MonoBehaviour {
         canvasScal.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         canvasScal.referenceResolution = new Vector2(300, 200);
         
-        GraphicRaycaster canvasRayc = canvasObject.AddComponent<GraphicRaycaster>();
+        canvasObject.AddComponent<GraphicRaycaster>();
 
 		//canvasObject.AddComponent<Image> ();
 
@@ -65,6 +56,7 @@ public class UIMakerScript : MonoBehaviour {
     }
 
     public GameObject CreatePanel(Transform parent) {
+
         GameObject panelObject = new GameObject("Panel");
         panelObject.transform.SetParent(parent);
 
@@ -81,7 +73,7 @@ public class UIMakerScript : MonoBehaviour {
         trans.sizeDelta = new Vector2(0, 0);
         trans.localScale = new Vector3(0.8f, 0.8f, 1.0f);
 
-        CanvasRenderer renderer = panelObject.AddComponent<CanvasRenderer>();
+        panelObject.AddComponent<CanvasRenderer>();
         
         Image image = panelObject.AddComponent<Image>();
 
@@ -109,7 +101,7 @@ public class UIMakerScript : MonoBehaviour {
         trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         trans.localPosition.Set(0, 0, 0);
 
-        CanvasRenderer renderer = textObject.AddComponent<CanvasRenderer>();
+        textObject.AddComponent<CanvasRenderer>();
         
         Text text = textObject.AddComponent<Text>();
         text.supportRichText = true;
@@ -139,7 +131,7 @@ public class UIMakerScript : MonoBehaviour {
         trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         trans.localPosition.Set(0, 0, 0);
 
-        CanvasRenderer renderer = buttonObject.AddComponent<CanvasRenderer>();
+        buttonObject.AddComponent<CanvasRenderer>();
 
         Image image = buttonObject.AddComponent<Image>();
 
@@ -151,51 +143,174 @@ public class UIMakerScript : MonoBehaviour {
         button.interactable = true;
         button.onClick.AddListener(eventListner);
 
-		CreateText(buttonObject.transform, new Vector2(0,0), new Vector2(0,34), "buttonText",
-                                                   message, 24);
+		CreateText(buttonObject.transform, new Vector2(0,0), size, "buttonText",
+                                                   message, 16);
 
         return buttonObject;
     }
 
-	public GameObject MakeScaler(Transform parent){
+	public GameObject CreateScaler(Transform parent, Vector2 position){
 	
-		GameObject scalerObject = new GameObject ();
+		GameObject scalerObject = new GameObject ("Slider");
 
-		scalerObject.transform.SetParent (parent);
+        var background = MakeScalerBackgorund(scalerObject.transform);
+        var fillArea = MakeFillArea(scalerObject.transform);
+        var fill = MakeFill(fillArea.transform);
+        var slideArea = MakeHandleSlideArea(scalerObject.transform);
+        var handle = MakeHandle(slideArea.transform);
+
+        scalerObject.transform.SetParent (parent);
 
 		scalerObject.layer = LayerUI;
 
-		scalerObject.AddComponent<RectTransform> ();
+		RectTransform rect = scalerObject.AddComponent<RectTransform> ();
+        rect.anchoredPosition = position;
+        rect.sizeDelta = new Vector2(160,20);
+        rect.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-		scalerObject.AddComponent<Slider> ();
+        Image handleImage = handle.GetComponent<Image>();
 
-		MakeScalerBackgorund (scalerObject.transform);
+        Slider slider = scalerObject.AddComponent<Slider> ();
 
-
+        slider.fillRect = fill.GetComponentInChildren<RectTransform>();
+        slider.handleRect = handle.GetComponent<RectTransform>();
+        slider.targetGraphic = handleImage;
+        slider.direction = Slider.Direction.LeftToRight;
 
 		return scalerObject;
 	}
 
-	private void MakeScalerBackgorund(Transform parent){
+	private GameObject MakeScalerBackgorund(Transform parent){
 
 		GameObject scalerBackground = new GameObject ("Background");
 
 		scalerBackground.transform.SetParent (parent);
 
+        scalerBackground.layer = LayerUI;
+
 		RectTransform trans = scalerBackground.AddComponent<RectTransform> ();
 
+        trans.anchoredPosition = new Vector3(0.0f, 0.0f);
+        trans.sizeDelta = new Vector2(0.0f, 0.0f);
 		trans.anchorMin = new Vector2 (0.0f,0.25f);
-		trans.anchorMax = new Vector2 (0.0f,0.75f);
+		trans.anchorMax = new Vector2 (1.0f,0.75f);
 		trans.pivot = new Vector2 (0.5f,0.5f);
+        trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-		scalerBackground.AddComponent<CanvasRenderer> ();
+        scalerBackground.AddComponent<CanvasRenderer> ();
 
 		Image image = scalerBackground.AddComponent<Image> ();
 
 		image.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
-	
 
+        image.type = Image.Type.Sliced;
+
+        return scalerBackground;
 	}
+
+    private GameObject MakeFillArea(Transform parent) {
+
+        GameObject areaObject = new GameObject("Fill Area");
+
+        areaObject.transform.SetParent(parent);
+
+        areaObject.layer = LayerUI;
+
+        RectTransform trans = areaObject.AddComponent<RectTransform>();
+        trans.offsetMin = new Vector2(5, 0);
+        trans.offsetMax = new Vector2(-15, 0);
+        //trans.anchoredPosition = new Vector3(5.0f, 0.0f,0.0f);
+
+        trans.anchorMin = new Vector2(0.0f, 0.25f);
+        trans.anchorMax = new Vector2(1.0f, 0.75f);
+        trans.pivot = new Vector2(0.5f, 0.5f);
+
+        trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        
+
+        return areaObject;
+
+    }
+
+    private GameObject MakeFill(Transform parent) {
+
+        GameObject fillObject = new GameObject("Fill");
+
+        fillObject.transform.SetParent(parent);
+
+        fillObject.layer = LayerUI;
+
+        var trans = fillObject.AddComponent<RectTransform>();
+
+        trans.localPosition = new Vector2(0.0f,0.0f);
+        trans.sizeDelta = new Vector2(10, 0);
+        trans.anchorMin = new Vector2(0.0f, 0.0f);
+        trans.anchorMax = new Vector2(0.0f, 1.0f);
+        trans.pivot = new Vector2(0.5f, 0.5f);
+        trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        fillObject.AddComponent<CanvasRenderer>();
+
+        var image = fillObject.AddComponent<Image>();
+
+        image.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+
+        image.type = Image.Type.Sliced;
+
+        return fillObject;
+
+    }
+
+    private GameObject MakeHandleSlideArea(Transform parent) {
+
+        GameObject slideArea = new GameObject("Handle Slide Area");
+
+        slideArea.transform.SetParent(parent);
+
+        slideArea.layer = LayerUI;
+
+        RectTransform trans = slideArea.AddComponent<RectTransform>();
+
+        trans.offsetMin = new Vector2(10, 0);
+        trans.offsetMax = new Vector2(-10, 0);
+        trans.anchorMin = new Vector2(0.0f, 0.0f);
+        trans.anchorMax = new Vector2(1.0f, 1.0f);
+        trans.pivot = new Vector2(0.5f, 0.5f);
+        trans.localScale = new Vector3(1.0f, 1.0f,1.0f);
+        //trans.right = new Vector3(15.0f, 0.0f, 0.0f);
+
+        //MakeHandle(slideArea.transform);
+
+        return slideArea;
+    }
+
+    private GameObject MakeHandle(Transform parent) {
+
+        GameObject handleObject = new GameObject("Handle");
+
+        handleObject.transform.parent = parent;
+
+        handleObject.layer = LayerUI;
+
+        var trans = handleObject.AddComponent<RectTransform>();
+
+        trans.anchoredPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        trans.sizeDelta = new Vector2(20,0);
+        trans.anchorMin = new Vector2(0.0f, 0.0f);
+        trans.anchorMax = new Vector2(0.0f, 1.0f);
+        trans.pivot = new Vector2(0.5f, 0.5f);
+        trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+        handleObject.AddComponent<CanvasRenderer>();
+
+        var image = handleObject.AddComponent<Image>();
+
+        image.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
+
+        image.type = Image.Type.Simple;
+
+        return handleObject;
+    }
 
     private static void SetSize(RectTransform trans, Vector2 size) {
         Vector2 currSize = trans.rect.size;
