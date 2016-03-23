@@ -33,4 +33,10 @@ public class FPSInput : MonoBehaviour {
 
 		charController.Move (movement);
 	}
+
+	float Speed{
+
+		get{ return speed;}
+		set{ speed = value;}
+	}
 }

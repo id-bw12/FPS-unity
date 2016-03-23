@@ -149,7 +149,7 @@ public class UIMakerScript : MonoBehaviour {
         return buttonObject;
     }
 
-	public GameObject CreateScaler(Transform parent, Vector2 position){
+	public GameObject CreateScaler(Transform parent, Vector2 position, float value){
 	
 		GameObject scalerObject = new GameObject ("Slider");
 
@@ -176,6 +176,9 @@ public class UIMakerScript : MonoBehaviour {
         slider.handleRect = handle.GetComponent<RectTransform>();
         slider.targetGraphic = handleImage;
         slider.direction = Slider.Direction.LeftToRight;
+		slider.maxValue = 10;
+		slider.wholeNumbers = true;
+		slider.value = value;
 
 		return scalerObject;
 	}

@@ -68,11 +68,10 @@ public class PauseMenu : MonoBehaviour
 		GameObject panel = menuMaker.CreatePanel(canvas.transform);
 
 		menuMaker.CreateText(panel.transform, new Vector2(0, 50), new Vector2(160, 50), "textHeader","Pause Menu", 14);
-		menuMaker.CreateText(panel.transform, new Vector2(0, 25), new Vector2(160, 50), "subText","Are you sure, you want to exit?", 12);
 
-		GameObject button1 = menuMaker.CreateButton(panel.transform, new Vector2(0,0), new Vector2(75,25), "Exitbttn","Yes", delegate {OnExit();});
-        GameObject button2 = menuMaker.CreateButton(panel.transform, new Vector2(0, -25), new Vector2(75, 25), "OptionsBttn", "Options", delegate { Options(panel); });
-		GameObject button3 = menuMaker.CreateButton(panel.transform, new Vector2(0, -50), new Vector2(75,25), "UnpauseBttn","No", delegate {ExitPause();});
+		GameObject button1 = menuMaker.CreateButton(panel.transform, new Vector2(0,-30), new Vector2(75,25), "Exitbttn","Exit", delegate {OnExit();});
+        GameObject button2 = menuMaker.CreateButton(panel.transform, new Vector2(0, -05), new Vector2(75, 25), "OptionsBttn", "Options", delegate { Options(panel); });
+		GameObject button3 = menuMaker.CreateButton(panel.transform, new Vector2(0, 20), new Vector2(75,25), "UnpauseBttn","Resume", delegate {ExitPause();});
 
 
 	}
@@ -89,9 +88,13 @@ public class PauseMenu : MonoBehaviour
 
         var optionPanel = menuMaker.CreatePanel(GameObject.Find("Canvas").transform);
 
-        menuMaker.CreateScaler(optionPanel.transform , new Vector2(0,30));
+		var currentSpeed = GameObject.Find ("Player").GetComponent<FPSInput> ();
+
+		var slider = menuMaker.CreateScaler(optionPanel.transform , new Vector2(0,30), currentSpeed.speed);
 
         GameObject button1 = menuMaker.CreateButton(optionPanel.transform, new Vector2(0, -30), new Vector2(75, 25), "Backbttn", "back", delegate { Back(optionPanel); });
+
+		slider.GetComponent<Slider> ().onValueChanged.AddListener (ValueChange);
 
     }
 
@@ -109,6 +112,18 @@ public class PauseMenu : MonoBehaviour
 		isPaused ();
 
 		GameObject.Destroy (GameObject.Find("Canvas"));
+	}
+
+	public void ValueChange(float value){
+	
+		FPSInput playerSpeed = GameObject.Find ("Player").GetComponent<FPSInput> ();
+
+		Slider gameSlider = GameObject.Find ("Slider").GetComponent<Slider> ();
+
+		playerSpeed.speed = value;
+
+		Debug.Log (playerSpeed.speed);
+
 	}
 
 }
