@@ -48,71 +48,54 @@
 using UnityEngine;
 using System.Collections;
 
-public class GunMechanic : MonoBehaviour {
-	
-	private Camera _camera;
-    
+public class EnemyClass : MonoBehaviour {
+
+	protected Color enemyColor;
+
+	protected int health;
 
 	// Use this for initialization
 	void Start () {
-		_camera = GetComponent<Camera>();
+	
 
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+
 	}
-
-	/**********************************************************
-	 * 	NAME: 			OnGUI
-	 *  DESCRIPTION:	Sets the aiming cursor on the middle 
-	 * 					of the screen.
-	 * 
-	 * ********************************************************/
-	void OnGUI(){
-		int size = 12;
-		float posX = _camera.pixelWidth / 2 - size / 4;
-		float posY = _camera.pixelHeight / 2 - size / 4;
-
-		GUI.Label (new Rect (posX, posY, size, size), "*");
-	}
-
+	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown (0) && Time.timeScale != 0){
-			var point = new Vector3 (_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-			var ray = _camera.ScreenPointToRay (point);
-			RaycastHit hit;
+	
+	}
 
-			if (Physics.Raycast (ray, out hit)) {
-				var hitObject = hit.transform.gameObject;
-				var target = hitObject.GetComponent<ReactiveTarget> ();
+	/************************************************************
+	 * 	NAME: 			SetColorToEnemy
+	 *  DESCRIPTION:	Sets the enemys color to the saved color.
+	 * 
+	 * *********************************************************/
+	protected void SetColorToEnemy(){
+	
+		this.GetComponent<MeshRenderer> ().material.color = enemyColor;
 
-				if (target != null) {
-					target.ReactToHit ();
-					Messenger.Broadcast (new GameEvent ().HitMessage);
-				}
-				else 
-					StartCoroutine (SphereIndictor (hit.point));
-					
-			}
-				
-		}
 	}
 
 	/**********************************************************
-	 * 	NAME: 			SphereIndictor
-	 *  DESCRIPTION:	Makes the bullet that was fired and give 
-	 * 					it the position that was passed. Then wait 
-	 * 					.5 seconds and then destroys them.
+	 * 	NAME: 			SetAIPathing
+	 *  DESCRIPTION:	Gives the enemy the AIMovement script
+	 * 					as an component.
 	 * 
 	 * ********************************************************/
+	public void SetAIPathing(){
 
-	private IEnumerator SphereIndictor(Vector3 pos){
-		var sphere = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+		this.gameObject.AddComponent<AIMovement> ();
+	}
 
-		sphere.transform.position = pos;
-
-		yield return new WaitForSeconds (0.5f);
-
-		Destroy (sphere);
+	/**********************************************************
+	 * 	NAME: 			ChangeSize
+	 *  DESCRIPTION:	changes the enemy scale on the y axis 
+	 * 					to 7.
+	 * 
+	 * ********************************************************/
+	public void ChangeSize(){
+	
+		this.gameObject.transform.localScale += new Vector3 (0.0f, 7.0f, 0.0f);
 	}
 }

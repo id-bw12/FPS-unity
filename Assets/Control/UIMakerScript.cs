@@ -1,3 +1,50 @@
+/**********************************************************
+***********************************************************
+***********************************************************
+***														***
+***						ID INFORMATION					***
+***														***
+***	Programmers				  :		  Eddie Meza Jr.	***
+***	Assignment #			  :		  Program 4         ***
+***	Assignment Name			  :		  GETTING GUI	    ***
+*** Course # and Title		  :		  CISC 221			***
+*** Class Meeting Time		  :		  TTH 09:35 - 12:45	***
+*** Instructor				  :		  Professor Forman	***
+*** Hours					  :		  10 				***
+*** Difficulty				  :		  5 				***
+*** Completion Date			  :		  03/23/2016		***
+*** Project Name			  :		  FPS_unity		    ***
+***														***
+***********************************************************
+***********************************************************
+***														***
+***			Program	Description 						***
+***														***
+***	  A demo to add a pause menu to the FPS game.	    ***
+***   The program has the FPS projects full components. ***
+***	  The pause menu can exit the game mode and change  ***
+***	  the players and enemy speed.						***
+***														***
+***********************************************************
+***********************************************************
+***														***
+***					Credits								***
+***														***
+***		Professor Forman's handout for making it easier ***
+***		to compelte the TA.								***
+***														***
+***														***
+***														***
+***********************************************************
+***********************************************************
+***														***					
+					Media
+
+***														***
+***********************************************************
+***********************************************************
+**********************************************************/
+
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
@@ -13,69 +60,86 @@ public class UIMakerScript : MonoBehaviour {
 
 	private const int LayerUI = 5;
 
-    public GameObject CreateCanvas(Transform parent) {
-        // create the canvas
-        GameObject canvasObject = new GameObject("Canvas");
-        canvasObject.layer = LayerUI;
+	/**********************************************************
+	 * 	NAME: 			CreateCanvas
+	 *  DESCRIPTION:	Get the control object transform and 
+	 * 					uses it to create to the canvas and 
+	 * 					return it.
+	 * 
+	 * ********************************************************/
 
-        RectTransform canvasTrans = canvasObject.AddComponent<RectTransform>();
-        
-        Canvas canvas = canvasObject.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.pixelPerfect = true;
+	public GameObject CreateCanvas(Transform parent)
+	{
+		// create the canvas
+		GameObject canvasObject = new GameObject("Canvas");
+		canvasObject.layer = LayerUI;
 
-        CanvasScaler canvasScal = canvasObject.AddComponent<CanvasScaler>();
-        canvasScal.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvasScal.referenceResolution = new Vector2(300, 200);
-        
-        canvasObject.AddComponent<GraphicRaycaster>();
+		canvasObject.AddComponent<RectTransform>().localScale = new Vector3(1.0f,2.0f,1.0f);
 
-		//canvasObject.AddComponent<Image> ();
+		Canvas canvas = canvasObject.AddComponent<Canvas>();
+		canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+		canvas.pixelPerfect = true;
 
-        canvasObject.transform.SetParent(parent);
-        
-        return canvasObject;
-    }
+		CanvasScaler canvasScal = canvasObject.AddComponent<CanvasScaler>();
+		canvasScal.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+		canvasScal.referenceResolution = new Vector2(300, 200);
 
-    public GameObject CreateEventSystem(Transform parent) {
-        GameObject esObject = new GameObject("EventSystem");
+		canvasObject.AddComponent<GraphicRaycaster>();
 
-        EventSystem esClass = esObject.AddComponent<EventSystem>();
-        esClass.sendNavigationEvents = true;
-        esClass.pixelDragThreshold = 5;
+		canvasObject.transform.SetParent(parent);
 
-        StandaloneInputModule stdInput = esObject.AddComponent<StandaloneInputModule>();
-        stdInput.horizontalAxis = "Horizontal";
-        stdInput.verticalAxis = "Vertical";
+		return canvasObject;
+	}
 
-        //TouchInputModule touchInput = esObject.AddComponent<TouchInputModule>();
+	/**********************************************************
+	 * 	NAME: 			CreateEventSystem
+	 *  DESCRIPTION:	Gets the transform of the canvas and 
+	 * 					makes the event system and returns it
+	 * 
+	 * ********************************************************/
+	public GameObject CreateEventSystem(Transform parent)
+	{
+		GameObject esObject = new GameObject("EventSystem");
 
-        esObject.transform.SetParent(parent);
+		EventSystem esClass = esObject.AddComponent<EventSystem>();
+		esClass.sendNavigationEvents = true;
+		esClass.pixelDragThreshold = 5;
 
-        return esObject;
-    }
+		StandaloneInputModule stdInput = esObject.AddComponent<StandaloneInputModule>();
+		stdInput.horizontalAxis = "Horizontal";
+		stdInput.verticalAxis = "Vertical";
 
-    public GameObject CreatePanel(Transform parent) {
+		esObject.transform.SetParent(parent);
 
-        GameObject panelObject = new GameObject("Panel");
-        panelObject.transform.SetParent(parent);
+		return esObject;
+	}
 
-        panelObject.layer = LayerUI;
+	/**********************************************************
+	 * 	NAME: 			CreatePanel
+	 *  DESCRIPTION:	Gets the canvas transform and uses it
+	 * 					to make the panel and returns it
+	 * 
+	 * ********************************************************/
+	public GameObject CreatePanel(Transform parent)
+	{
+		GameObject panelObject = new GameObject("Panel");
+		panelObject.transform.SetParent(parent);
 
-        RectTransform trans = panelObject.AddComponent<RectTransform>();
-        trans.anchorMin = new Vector2(0, 0);
-        trans.anchorMax = new Vector2(1, 1);
-        trans.anchoredPosition3D = new Vector3(0, 0, 0);
-        trans.anchoredPosition = new Vector2(0, 0);
-        trans.offsetMin = new Vector2(0, 0);
-        trans.offsetMax = new Vector2(0, 0);
-        trans.localPosition = new Vector3(0, 0, 0);
-        trans.sizeDelta = new Vector2(0, 0);
-        trans.localScale = new Vector3(0.8f, 0.8f, 1.0f);
+		panelObject.layer = LayerUI;
 
-        panelObject.AddComponent<CanvasRenderer>();
-        
-        Image image = panelObject.AddComponent<Image>();
+		RectTransform trans = panelObject.AddComponent<RectTransform>();
+		trans.anchorMin = new Vector2(0, 0);
+		trans.anchorMax = new Vector2(1, 1);
+		trans.anchoredPosition = new Vector2(0, 0);
+		trans.offsetMin = new Vector2(0, 0);
+		trans.offsetMax = new Vector2(0, 0);
+		trans.localPosition = new Vector3(0, 0, 0);
+		trans.sizeDelta = new Vector2(0, 0);
+		trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+		panelObject.AddComponent<CanvasRenderer>();
+
+		Image image = panelObject.AddComponent<Image>();
 
 		image.sprite = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
 
@@ -83,9 +147,17 @@ public class UIMakerScript : MonoBehaviour {
 
 		image.color = Color.yellow;
 
-        return panelObject;
-    }
-    
+		return panelObject;
+	}
+
+
+	/************************************************************
+	 * 	NAME: 			CreateText
+	 *  DESCRIPTION:	Gets the panels transform, x, y, height,
+	 * 					width, string, and fontsize variables.
+	 * 					Uses it to make the text and returns it.
+	 * 
+	 * **********************************************************/
 	public GameObject CreateText(Transform parent,Vector2 position, Vector2 size, string objectName,
 		string message, int fontSize) {
 
@@ -99,9 +171,9 @@ public class UIMakerScript : MonoBehaviour {
         trans.anchoredPosition3D = new Vector3(0, 0, 0);
 		trans.anchoredPosition = position;
         trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        trans.localPosition.Set(0, 0, 0);
+		trans.localPosition.Set (0, 0, 0);
 
-        textObject.AddComponent<CanvasRenderer>();
+		textObject.AddComponent<CanvasRenderer>();
         
         Text text = textObject.AddComponent<Text>();
         text.supportRichText = true;
@@ -115,6 +187,15 @@ public class UIMakerScript : MonoBehaviour {
         return textObject;
     }
     
+	/**************************************************************
+	 * 	NAME: 			CreatButton
+	 *  DESCRIPTION:	Gets the panels transform, x, y, height,
+	 * 					width, string, and eventlistner variables.
+	 * 					Uses it to make a button and sends the
+	 * 					string and the buttons transform to the
+	 * 					text for the buttton.
+	 * 
+	 * ************************************************************/
 	public GameObject CreateButton(Transform parent, Vector2 position, Vector2 size, string objectName, 
 		string message, UnityAction eventListner) {
 
@@ -149,11 +230,22 @@ public class UIMakerScript : MonoBehaviour {
         return buttonObject;
     }
 
+	/**********************************************************
+	 * 	NAME: 			CreateScalar
+	 *  DESCRIPTION:	Get the panels transform, position, and 
+	 * 					float value and uses it to create to the 
+	 *					scalar. Also calls the 5 different methods
+	 * 					and sends the differnt objects transform
+	 * 					to set then in a hierarchy and returns
+	 * 					the scalar.
+	 * 
+	 * ********************************************************/
+
 	public GameObject CreateScaler(Transform parent, Vector2 position, float value){
 	
 		GameObject scalerObject = new GameObject ("Slider");
 
-        var background = MakeScalerBackgorund(scalerObject.transform);
+		var background = MakeSliderBackground(scalerObject.transform);
         var fillArea = MakeFillArea(scalerObject.transform);
         var fill = MakeFill(fillArea.transform);
         var slideArea = MakeHandleSlideArea(scalerObject.transform);
@@ -176,14 +268,22 @@ public class UIMakerScript : MonoBehaviour {
         slider.handleRect = handle.GetComponent<RectTransform>();
         slider.targetGraphic = handleImage;
         slider.direction = Slider.Direction.LeftToRight;
-		slider.maxValue = 10;
+		slider.maxValue = 2;
 		slider.wholeNumbers = true;
 		slider.value = value;
 
 		return scalerObject;
 	}
 
-	private GameObject MakeScalerBackgorund(Transform parent){
+	/**********************************************************
+	 * 	NAME: 			MakeSliderBackground
+	 *  DESCRIPTION:	Get the slider's transformer and sets the
+	 * 					slider background a child of the slider.
+	 *					Makes the background and then returns it.
+	 * 					the scalar.
+	 * 
+	 * ********************************************************/
+	private GameObject MakeSliderBackground(Transform parent){
 
 		GameObject scalerBackground = new GameObject ("Background");
 
@@ -211,6 +311,14 @@ public class UIMakerScript : MonoBehaviour {
         return scalerBackground;
 	}
 
+	/**********************************************************
+	 * 	NAME: 			MakeFillArea
+	 *  DESCRIPTION:	Get the slider's transformer and sets the 
+	 * 					Fill Area as a child of the slider. 
+	 * 					Then make the area object and returns
+	 * 					it.
+	 * 
+	 * ********************************************************/
     private GameObject MakeFillArea(Transform parent) {
 
         GameObject areaObject = new GameObject("Fill Area");
@@ -222,19 +330,26 @@ public class UIMakerScript : MonoBehaviour {
         RectTransform trans = areaObject.AddComponent<RectTransform>();
         trans.offsetMin = new Vector2(5, 0);
         trans.offsetMax = new Vector2(-15, 0);
-        //trans.anchoredPosition = new Vector3(5.0f, 0.0f,0.0f);
 
         trans.anchorMin = new Vector2(0.0f, 0.25f);
         trans.anchorMax = new Vector2(1.0f, 0.75f);
         trans.pivot = new Vector2(0.5f, 0.5f);
 
         trans.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        
 
         return areaObject;
 
     }
 
+	/**********************************************************
+	 * 	NAME: 			MakeFill
+	 *  DESCRIPTION:	Get the MakeFillArea transform and set
+	 * 					Fill Object as a child of Fill Area. 
+	 * 					Then makes the fill object and set the
+	 * 					UISprite sprite to the fill object.
+	 * 					Then returns the Fill Object.
+	 * 
+	 * ********************************************************/
     private GameObject MakeFill(Transform parent) {
 
         GameObject fillObject = new GameObject("Fill");
@@ -264,6 +379,14 @@ public class UIMakerScript : MonoBehaviour {
 
     }
 
+	/**********************************************************
+	 * 	NAME: 			MakeHandleSlideArea
+	 *  DESCRIPTION:	Get the slider's transformer and sets the 
+	 * 					handle slide area object as a child of the
+	 *					scalar. Makes Handle Slide Area and returns
+	 * 					its.
+	 * 
+	 * ********************************************************/
     private GameObject MakeHandleSlideArea(Transform parent) {
 
         GameObject slideArea = new GameObject("Handle Slide Area");
@@ -280,13 +403,19 @@ public class UIMakerScript : MonoBehaviour {
         trans.anchorMax = new Vector2(1.0f, 1.0f);
         trans.pivot = new Vector2(0.5f, 0.5f);
         trans.localScale = new Vector3(1.0f, 1.0f,1.0f);
-        //trans.right = new Vector3(15.0f, 0.0f, 0.0f);
-
-        //MakeHandle(slideArea.transform);
 
         return slideArea;
     }
 
+	/**********************************************************
+	 * 	NAME: 			MakeHandle
+	 *  DESCRIPTION:	Get the handle slide area transform 
+	 * 					and sets the handle object as a child of 
+	 *					handle slide area. Then makes the handle 
+	 * 					that move on the slider to change the 
+	 * 					value.
+	 * 
+	 * ********************************************************/
     private GameObject MakeHandle(Transform parent) {
 
         GameObject handleObject = new GameObject("Handle");
@@ -314,6 +443,14 @@ public class UIMakerScript : MonoBehaviour {
 
         return handleObject;
     }
+
+	/**********************************************************
+	 * 	NAME: 			SetSize
+	 *  DESCRIPTION:	Gets the buttons tansform and its width
+	 * 					and height and uses it to set the button
+	 * 					offset position.
+	 * 
+	 * ********************************************************/
 
     private static void SetSize(RectTransform trans, Vector2 size) {
         Vector2 currSize = trans.rect.size;

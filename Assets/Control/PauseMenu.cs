@@ -1,4 +1,51 @@
-﻿using UnityEngine;
+﻿/**********************************************************
+***********************************************************
+***********************************************************
+***														***
+***						ID INFORMATION					***
+***														***
+***	Programmers				  :		  Eddie Meza Jr.	***
+***	Assignment #			  :		  Program 4         ***
+***	Assignment Name			  :		  GETTING GUI	    ***
+*** Course # and Title		  :		  CISC 221			***
+*** Class Meeting Time		  :		  TTH 09:35 - 12:45	***
+*** Instructor				  :		  Professor Forman	***
+*** Hours					  :		  10 				***
+*** Difficulty				  :		  5 				***
+*** Completion Date			  :		  03/23/2016		***
+*** Project Name			  :		  FPS_unity		    ***
+***														***
+***********************************************************
+***********************************************************
+***														***
+***			Program	Description 						***
+***														***
+***	  A demo to add a pause menu to the FPS game.	    ***
+***   The program has the FPS projects full components. ***
+***	  The pause menu can exit the game mode and change  ***
+***	  the players and enemy speed.						***
+***														***
+***********************************************************
+***********************************************************
+***														***
+***					Credits								***
+***														***
+***		Professor Forman's handout for making it easier ***
+***		to compelte the TA.								***
+***														***
+***														***
+***														***
+***********************************************************
+***********************************************************
+***														***					
+					Media
+
+***														***
+***********************************************************
+***********************************************************
+**********************************************************/
+
+using UnityEngine;
 using System.Collections;
 
 using UnityEngine.UI;
@@ -29,8 +76,6 @@ public class PauseMenu : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P) && !pause)
             isPaused();
-
-
     }
 
     private void isPaused(){
@@ -67,34 +112,34 @@ public class PauseMenu : MonoBehaviour
 
 		GameObject panel = menuMaker.CreatePanel(canvas.transform);
 
-		menuMaker.CreateText(panel.transform, new Vector2(0, 50), new Vector2(160, 50), "textHeader","Pause Menu", 14);
+		menuMaker.CreateText(panel.transform, new Vector2(10, 50), new Vector2(160, 50), "textHeader","Pause Menu", 14);
 
-		GameObject button1 = menuMaker.CreateButton(panel.transform, new Vector2(0,-30), new Vector2(75,25), "Exitbttn","Exit", delegate {OnExit();});
-        GameObject button2 = menuMaker.CreateButton(panel.transform, new Vector2(0, -05), new Vector2(75, 25), "OptionsBttn", "Options", delegate { Options(panel); });
-		GameObject button3 = menuMaker.CreateButton(panel.transform, new Vector2(0, 20), new Vector2(75,25), "UnpauseBttn","Resume", delegate {ExitPause();});
-
+		menuMaker.CreateButton(panel.transform, new Vector2(0,-30), new Vector2(75,25), "Exitbttn","Exit", delegate {OnExit();});
+        menuMaker.CreateButton(panel.transform, new Vector2(0, -05), new Vector2(75, 25), "OptionsBttn", "Options", delegate { Options(panel); });
+		menuMaker.CreateButton(panel.transform, new Vector2(0, 20), new Vector2(75,25), "UnpauseBttn","Resume", delegate {ExitPause();});
 
 	}
    
 	private void OnExit(){
-		
-		Debug.Log ("Exit");
 		UnityEditor.EditorApplication.isPlaying = false;
 	}
 
     private void Options(GameObject panel) {
 
-        GameObject.Destroy(panel);
-
         var optionPanel = menuMaker.CreatePanel(GameObject.Find("Canvas").transform);
 
-		var currentSpeed = GameObject.Find ("Player").GetComponent<FPSInput> ();
+		float currentSpeed = GameObject.Find ("Player").GetComponent<FPSInput> ().Speed;
 
-		var slider = menuMaker.CreateScaler(optionPanel.transform , new Vector2(0,30), currentSpeed.speed);
+		var slider = menuMaker.CreateScaler(optionPanel.transform , new Vector2(-20,30), currentSpeed);
 
-        GameObject button1 = menuMaker.CreateButton(optionPanel.transform, new Vector2(0, -30), new Vector2(75, 25), "Backbttn", "back", delegate { Back(optionPanel); });
+		menuMaker.CreateText(optionPanel.transform, new Vector2 (0, 50), new Vector2 (160,25), "speedHeaderLbl", "Players Speed", 12);
+		menuMaker.CreateText (optionPanel.transform, new Vector2 (100, 30), new Vector2 (160,50), "SpeedLbl", currentSpeed.ToString(), 12);
+
+        menuMaker.CreateButton(optionPanel.transform, new Vector2(0, -30), new Vector2(75, 25), "Backbttn", "back", delegate { Back(optionPanel); });
 
 		slider.GetComponent<Slider> ().onValueChanged.AddListener (ValueChange);
+
+		GameObject.Destroy(panel);
 
     }
 
@@ -106,8 +151,6 @@ public class PauseMenu : MonoBehaviour
     }
 
     private void ExitPause(){
-		
-		Debug.Log ("Unpaused");
 
 		isPaused ();
 
@@ -115,15 +158,12 @@ public class PauseMenu : MonoBehaviour
 	}
 
 	public void ValueChange(float value){
-	
-		FPSInput playerSpeed = GameObject.Find ("Player").GetComponent<FPSInput> ();
 
-		Slider gameSlider = GameObject.Find ("Slider").GetComponent<Slider> ();
+		var playerSpeed = GameObject.Find ("Player").GetComponent<FPSInput> ().Speed;
 
-		playerSpeed.speed = value;
+		Messenger<float>.Broadcast (new GameEvent ().SpeedMessage, value);
 
-		Debug.Log (playerSpeed.speed);
-
+		GameObject.Find ("SpeedLbl").GetComponent<Text> ().text = playerSpeed.ToString ();
 	}
 
 }
